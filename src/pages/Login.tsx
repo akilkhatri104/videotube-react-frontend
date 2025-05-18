@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { toast } from "sonner"
 import axios from 'axios'
+import api from '@/api/api'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login } from '@/store/userSlice'
@@ -27,25 +28,21 @@ export default function Signup() {
                 toast('Password must contain 8 charactors, 1 uppercase, 1 lowercase and 1 number')
             }
 
-            const res = await axios(`${import.meta.env.VITE_API_URI}/users/login`,{
-                method: 'POST',
-                data: userDetails,
-                withCredentials: true
-            })
+            const res = await api.post('users/login',userDetails)
             console.log(res.data)
             if(res.status === 200){
                 toast('User logged in succesfully')
                 dispatch(login({
                  user: {
+                    id: res.data.data.user._id,
                     fullName: res.data.data.user.fullName,
                     username: res.data.data.user.username,
                     profilePic: res.data.data.user.avatar,
                     coverPic: res.data.data.user.CoverImage,
                     email: res.data.data.user.email,
-                    isEmailVerified: res.data.data.user.isEmailVerified
-                 },
-                 refreshToken: res.data.refreshToken,
-                 accessToken: res.data.accessToken
+                },
+                isEmailVerified: res.data.data.user.isEmailVerified,
+                authStatus: true
                 }))
                 navigate('/')
             }else{
@@ -58,7 +55,7 @@ export default function Signup() {
     return (
         <main className='container'>
             <div className='flex flex-col gap-5 items-center min-h-screen'>
-                <div className='text-center'>
+                <div className='flex flex-col justify-center items-center'>
                     
                     <Logo className='mx-auto mb-4'/>
                     <h1 className='text-2xl font-bold'>

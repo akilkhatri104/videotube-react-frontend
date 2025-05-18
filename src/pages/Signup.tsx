@@ -63,7 +63,7 @@ export default function Signup() {
     return (
         <main className='container'>
             <div className='flex flex-col gap-5 items-center min-h-screen'>
-                <div className='text-center'>
+                <div className='flex flex-col justify-center items-center'>
                     
                     <Logo className='mx-auto mb-4'/>
                     <h1 className='text-2xl font-bold'>
