@@ -6,6 +6,7 @@ import App from './App.tsx'
 import {Home} from './pages/Home.tsx'
 import LoginPage from './pages/Login.tsx'
 import SignupPage from './pages/Signup.tsx'
+import UploadPage from './pages/Upload.tsx'
 import {store} from './store/store.ts'
 import { Provider } from 'react-redux'
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <SignupPage />,
+      },
+      {
+        path: '/upload',
+        element: <UploadPage />
       }
     ]
   },

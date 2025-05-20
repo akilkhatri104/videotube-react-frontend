@@ -6,7 +6,8 @@ export type Video = {
     description: string,
     views: string,
     owner: User,
-    uploadDate: Date
+    uploadDate: Date,
+    isPublished: boolean
 }
 
 export type User = {

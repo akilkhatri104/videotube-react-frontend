@@ -1,18 +1,21 @@
-import { Outlet } from 'react-router'
+import { Outlet,Link } from 'react-router'
 import Header from './components/shared/Header'
 import {SideBar} from './components/shared/Sidebar'
 import { useState,useEffect } from 'react'
 import { Toaster } from "@/components/ui/sonner"
 import api from './api/api'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import {login} from '@/store/userSlice'
-
+import type { UserState } from './types'
 function App() {
   const [sidebarVisible, setSidebarVisible] = useState(true)
+  const [emailVerificationVisible,setEmailVerificationVisible] = useState(true)
   const dispatch = useDispatch()
+  const user: UserState = useSelector(state => state.user)
   useEffect(() => {
     (
       async() => {
+        await api.post('/users/refresh-token')
         const res = await api.get('users/current-user')
         if(res.status === 200 && res.data?.data){
           dispatch(login({
@@ -40,6 +43,11 @@ function App() {
       <div className='flex'>
         <SideBar className={`md:block w-1/6 ${sidebarVisible ? 'hidden' : 'md:hidden block'}`}/>
         <main className='flex-1 p-6'>
+            {user.isEmailVerified === false && 
+              <div className= {`bg-blue-800 flex-row justify-between px-3 py-1 ${emailVerificationVisible ? 'flex  ' : 'hidden'}`}>
+                <h1>Please verify your email <Link to='/verify' className='text-red-200'>here</Link>.</h1>
+                <h1 onClick={() => setEmailVerificationVisible(false)} className='cursor-pointer'>X</h1>
+              </div> }
             <Outlet />
         </main>
             <Toaster />

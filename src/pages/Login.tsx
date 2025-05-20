@@ -2,15 +2,18 @@ import { Link } from 'react-router-dom'
 import { Logo } from '@/components/shared/Logo'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { toast } from "sonner"
-import axios from 'axios'
 import api from '@/api/api'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login } from '@/store/userSlice'
+import type { UserState } from '@/types'
+import { useSelector } from 'react-redux'
+import Protected from '@/components/shared/Protected'
 
 export default function Signup() {
+    const user: UserState = useSelector(state => state.user)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [userDetails,setUserDetails] = useState({
@@ -18,6 +21,11 @@ export default function Signup() {
         password: ''
     })
     
+    useEffect(() => {
+        if(user.authStatus === true && user?.user){
+            navigate('/')
+        }
+    },[user,navigate,user.authStatus,user.user])
 
     const loginHandler = async(e) => {
         e.preventDefault()
@@ -53,7 +61,8 @@ export default function Signup() {
         }
     }
     return (
-        <main className='container'>
+        <Protected authentication={false}>
+            <main className='container'>
             <div className='flex flex-col gap-5 items-center min-h-screen'>
                 <div className='flex flex-col justify-center items-center'>
                     
@@ -74,5 +83,6 @@ export default function Signup() {
                 </form>
             </div>
         </main>
+        </Protected>
     )
 }

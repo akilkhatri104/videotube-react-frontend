@@ -60,7 +60,7 @@ export default function Header({sidebarVisible, setSidebarVisible}: {sidebarVisi
                 )}
                 {userState.authStatus === true && (
                     <div className='flex flex-row gap-5 mr-0 pr-0 gap-r-0'>
-                    <Button variant='secondary' className='mx-2'>+ Upload</Button>
+                    <Button onClick={() => navigate('/upload')} variant='secondary' className='mx-2'>+ Upload</Button>
                     <Button variant='secondary' className='mx-2' onClick={logoutHandler}>Logout</Button>
                    
                    <DropdownMenu>

@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { toast } from "sonner"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Protected from '@/components/shared/Protected'
 
 export default function Signup() {
     const navigate = useNavigate()
@@ -61,7 +62,8 @@ export default function Signup() {
         }
     }
     return (
-        <main className='container'>
+        <Protected authentication={false}>
+            <main className='container'>
             <div className='flex flex-col gap-5 items-center min-h-screen'>
                 <div className='flex flex-col justify-center items-center'>
                     
@@ -89,5 +91,6 @@ export default function Signup() {
                 </form>
             </div>
         </main>
+        </Protected>
     )
 }

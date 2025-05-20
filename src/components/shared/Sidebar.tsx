@@ -65,7 +65,7 @@ export function SideBar({
 
     if(user?.user?.id && user.authStatus === true)
         getSubscriptions()
-    },[user?.user?.id,user?.authStatus])
+    },[user.authStatus,user?.user?.id])
     return (
         <aside className={`w-64 min-h-[calc(100vh-80px)] border-r-2 shrink-0 ${className}`}>
             <nav className='h-full w-full'>
@@ -80,14 +80,18 @@ export function SideBar({
             </div>
             
             <div>
-                <h1 className='font-bold'>Subcriptions</h1>
-                <ul>
+                <h1 className='font-bold m-3'>Subcriptions</h1>
+                {user.authStatus === false ? (
+                    <h1 className='text-center'>To view your subscriptions, please <Link to='/login' className='text-blue-700'>login</Link></h1>
+                ) : (
+                    <ul>
                     {subscriptions.map(sub => (
                         <li key={sub.id}>
                             <SubscriptionLink subscription={sub}/>
                         </li>
                     ))}
                 </ul>
+                )}
             </div>
             </nav>
         </aside>

@@ -39,7 +39,7 @@ export function Home(){
 
     },[])
     return(
-        <div className="flex flex-row flex-wrap gap-2 justify-start">
+        <div className="flex md:flex-row flex-col justify-center flex-wrap gap-3 md:justify-items-start">
             {videos.map(video => (
                 <VideoTitle video={video} />
             ))}
