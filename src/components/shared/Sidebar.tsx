@@ -38,10 +38,12 @@ export function SideBar({
     className
 }){
     const user: UserState = useSelector((state: {user:UserState}) => state.user)
+    const [isLoading,setIsLoading] = useState(false)
     const [subscriptions,setSubscriptions]  = useState<User[]>([])
     useEffect(() => {
         const getSubscriptions = async () => {
         try {
+            setIsLoading(true)
             const res = await api(`${import.meta.env.VITE_API_URI}/subscriptions/u/${user?.user?.id}`)
             if(res.status === 200){
                 console.log("Res: ",res)
@@ -60,13 +62,15 @@ export function SideBar({
             }
         } catch (error) {
             toast(error.message)
+        } finally {
+            setIsLoading(false)
         }
     }
 
     if(user?.user?.id && user.authStatus === true)
         getSubscriptions()
     },[user.authStatus,user?.user?.id])
-    return (
+    return !isLoading ? (
         <aside className={`w-64 min-h-[calc(100vh-80px)] border-r-2 shrink-0 ${className}`}>
             <nav className='h-full w-full'>
                 <div className='flex flex-col p-4 border-b '>
@@ -95,5 +99,5 @@ export function SideBar({
             </div>
             </nav>
         </aside>
-    )
+    ) : (<h1 className='text-center text-2xl'>Loading...</h1>)
 }

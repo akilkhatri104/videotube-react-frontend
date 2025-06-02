@@ -33,13 +33,13 @@ export function VideoTitle({
     return (
         <div key={video.id} className='md:w-[250px] w-full border-sm'>
                 <Link to={`/watch/?v=${video.id}`}>
-            <img className='rounded-sm w-[200px]' src={video.thumbnail}/>
+            <img className='rounded-sm w-[250px] h-[200px]' src={video.thumbnail}/>
             <div className='flex flex-row gap-2'>
                 <Avatar className='relative flex  size-8 shrink-0 overflow-hidden rounded-full'>
                     <AvatarImage src={video.owner?.profilePic} className='aspect-square size-full' />
                     <AvatarFallback className='bg-muted flex size-full items-center justify-center rounded-full text-black'>{video.owner?.username}</AvatarFallback>
                 </Avatar>
-                <h1>{video.title}</h1>
+                <h1 title={video.title} className='truncate'>{video.title}</h1>
             </div>
             <div className='flex flex-row gap-2'>
                 <h1>{video.owner.fullName}</h1>
